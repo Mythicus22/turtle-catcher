@@ -3,6 +3,13 @@
     catch_closest_turtle_first: True
     max_linear_speed: 9.0
 
+/manual_controller:
+  ros__parameters:
+    manual_linear_speed: 5.0
+    manual_angular_speed: 2.5
+    catch_distance: 0.5
+    key_hold_timeout: 0.6
+
 /turtle_spawner:
   ros__parameters:
     turtle_name_prefix: "my_turtle"

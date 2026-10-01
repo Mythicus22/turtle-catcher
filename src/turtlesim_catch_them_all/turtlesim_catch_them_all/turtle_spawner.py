@@ -20,10 +20,13 @@ class TurtleSpawnerNode(Node):
         self.declare_parameter('spawn_frequency', 1.0)
 
         self.declare_parameter('max_alive_turtles', 10)
+        self.declare_parameter('log_spawned_turtles', True)
 
         self.turtle_name_prefix_ = self.get_parameter('turtle_name_prefix').value
         self.spawn_frequency_ = self.get_parameter('spawn_frequency').value
         self.max_alive_turtles_ = self.get_parameter('max_alive_turtles').value
+        self.log_spawned_turtles_ = self.get_parameter(
+            'log_spawned_turtles').value
         self.turtle_counter_ = 0
         self.alive_turtles_ = []
         self.alive_turtles_publisher_ = self.create_publisher(
@@ -76,7 +79,8 @@ class TurtleSpawnerNode(Node):
     def callback_call_spawn_service(self, future, request: Spawn.Request):
         response: Spawn.Response = future.result()
         if response.name != '':
-            self.get_logger().info('New alive turtle: ' + response.name)
+            if self.log_spawned_turtles_:
+                self.get_logger().info('New alive turtle: ' + response.name)
             new_turtle = Turtle()
             new_turtle.name = response.name
             new_turtle.x = request.x
